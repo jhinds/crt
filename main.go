@@ -1,9 +1,9 @@
 package main
 
 import (
-	"github.com/jhinds/crt/cmd"
+	"github.com/jhinds/crt/app"
 )
 
 func main() {
-	cmd.Execute()
+	app.Execute()
 }
