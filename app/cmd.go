@@ -23,6 +23,7 @@ var cmd = &cobra.Command{
 	},
 }
 
+// Execute runs the application
 func Execute() {
 	if err := cmd.Execute(); err != nil {
 		fmt.Println(err)
@@ -30,7 +31,7 @@ func Execute() {
 	}
 }
 
-const crtUrl = "https://crt.sh"
+const crtURL = "https://crt.sh"
 
 var domain string
 
@@ -38,15 +39,19 @@ var between string
 
 var days string
 
+var count string
+
 func init() {
 	cmd.PersistentFlags().StringVar(&domain, "domain", "", "Domain to find certificates for. % is a wildcard")
 	cmd.PersistentFlags().StringVar(&days, "days", "", "How many days back to query")
 	cmd.PersistentFlags().StringVar(&between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
+	cmd.PersistentFlags().StringVar(&count, "count", "", "Don't return the results just the count")
 }
 
+// GetCerts will query the Certificate logs and return the result
 func GetCerts() {
 	cleanDomain := strings.Replace(domain, "%", "%25", -1)
-	url := fmt.Sprintf("%s/?q=%s&output=json", crtUrl, cleanDomain)
+	url := fmt.Sprintf("%s/?q=%s&output=json", crtURL, cleanDomain)
 	client := &http.Client{
 		Timeout: time.Second * 3,
 	}
@@ -55,10 +60,10 @@ func GetCerts() {
 		errors.Wrap(err, "Error Getting Response")
 	}
 	defer resp.Body.Close()
-	if err != nil {
-		errors.Wrap(err, "Error Getting Response")
-	}
 	contents, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		errors.Wrap(err, "Error Reading Body")
+	}
 	fmt.Printf("%s\n", string(contents))
 
 }
