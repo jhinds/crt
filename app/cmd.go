@@ -19,6 +19,10 @@ var cmd = &cobra.Command{
 				  it does so by querying https://crt.sh
 				  Complete documentation is available at https://github.com/jhinds/crt`,
 	Run: func(cmd *cobra.Command, args []string) {
+		if len(args) == 0 {
+			cmd.Help()
+			os.Exit(0)
+		}
 		GetCerts()
 	},
 }
@@ -46,6 +50,7 @@ func init() {
 	cmd.PersistentFlags().StringVar(&days, "days", "", "How many days back to query")
 	cmd.PersistentFlags().StringVar(&between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
 	cmd.PersistentFlags().StringVar(&count, "count", "", "Don't return the results just the count")
+	cmd.MarkPersistentFlagRequired("domain")
 }
 
 // GetCerts will query the Certificate logs and return the result
