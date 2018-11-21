@@ -46,10 +46,10 @@ var days string
 var count string
 
 func init() {
-	cmd.PersistentFlags().StringVar(&domain, "domain", "", "Domain to find certificates for. % is a wildcard")
-	cmd.PersistentFlags().StringVar(&days, "days", "", "How many days back to query")
 	cmd.PersistentFlags().StringVar(&between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
-	cmd.PersistentFlags().StringVar(&count, "count", "", "Don't return the results just the count")
+	cmd.PersistentFlags().StringVarP(&count, "count", "c", "", "Don't return the results just the count")
+	cmd.PersistentFlags().StringVar(&days, "days", "", "How many days back to query")
+	cmd.PersistentFlags().StringVarP(&domain, "domain", "d", "", "Domain to find certificates for. % is a wildcard")
 	cmd.MarkPersistentFlagRequired("domain")
 }
 
