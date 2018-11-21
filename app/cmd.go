@@ -2,9 +2,13 @@ package app
 
 import (
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
+	"time"
 
+	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -15,7 +19,7 @@ var cmd = &cobra.Command{
 				  it does so by querying https://crt.sh
 				  Complete documentation is available at https://github.com/jhinds/crt`,
 	Run: func(cmd *cobra.Command, args []string) {
-		// Do Stuff Here
+		GetCerts()
 	},
 }
 
@@ -43,4 +47,18 @@ func init() {
 func GetCerts() {
 	cleanDomain := strings.Replace(domain, "%", "%25", -1)
 	url := fmt.Sprintf("%s/?q=%s&output=json", crtUrl, cleanDomain)
+	client := &http.Client{
+		Timeout: time.Second * 3,
+	}
+	resp, err := client.Get(url)
+	if err != nil {
+		errors.Wrap(err, "Error Getting Response")
+	}
+	defer resp.Body.Close()
+	if err != nil {
+		errors.Wrap(err, "Error Getting Response")
+	}
+	contents, err := ioutil.ReadAll(resp.Body)
+	fmt.Printf("%s\n", string(contents))
+
 }
