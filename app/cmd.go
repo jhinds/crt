@@ -3,6 +3,7 @@ package app
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -25,6 +26,8 @@ func Execute() {
 	}
 }
 
+const crtUrl = "https://crt.sh"
+
 var domain string
 
 var between string
@@ -35,4 +38,9 @@ func init() {
 	cmd.PersistentFlags().StringVar(&domain, "domain", "", "Domain to find certificates for. % is a wildcard")
 	cmd.PersistentFlags().StringVar(&days, "days", "", "How many days back to query")
 	cmd.PersistentFlags().StringVar(&between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
+}
+
+func GetCerts() {
+	cleanDomain := strings.Replace(domain, "%", "%25", -1)
+	url := fmt.Sprintf("%s/?q=%s&output=json", crtUrl, cleanDomain)
 }
