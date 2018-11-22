@@ -13,11 +13,11 @@ import (
 )
 
 var cmd = &cobra.Command{
-	Use:   "crt",
-	Short: "crt is a tool to query the Certificate Transparency Logs",
-	Long: `crt is a tool to query the Certificate Transparency Logs
+	Use:   "gcrt",
+	Short: "gcrt is a tool to query the Certificate Transparency Logs",
+	Long: `gcrt is a tool to query the Certificate Transparency Logs
 				  it does so by querying https://crt.sh
-				  Complete documentation is available at https://github.com/jhinds/crt`,
+				  Complete documentation is available at https://github.com/jhinds/gcrt`,
 	Run: func(cmd *cobra.Command, args []string) {
 		if len(args) == 0 {
 			cmd.Help()
@@ -35,7 +35,7 @@ func Execute() {
 	}
 }
 
-const crtURL = "https://crt.sh"
+const gcrtURL = "https://crt.sh"
 
 var domain string
 
@@ -56,7 +56,7 @@ func init() {
 // GetCerts will query the Certificate logs and return the result
 func GetCerts() {
 	cleanDomain := strings.Replace(domain, "%", "%25", -1)
-	url := fmt.Sprintf("%s/?q=%s&output=json", crtURL, cleanDomain)
+	url := fmt.Sprintf("%s/?q=%s&output=json", gcrtURL, cleanDomain)
 	client := &http.Client{
 		Timeout: time.Second * 3,
 	}

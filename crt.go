@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/jhinds/crt/app"
+	"github.com/jhinds/gcrt/app"
 )
 
 func main() {
