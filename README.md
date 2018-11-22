@@ -6,7 +6,7 @@ crt is a simple in cli tool to check certificate information of certain domains 
 ```
 gcrt is a tool to query the Certificate Transparency Logs
                    it does so by querying https://crt.sh
-                   Complete documentation is available at https://github.com/jhinds/crt
+                   Complete documentation is available at https://github.com/jhinds/gcrt
 
 Usage:
   gcrt [flags]
@@ -16,8 +16,11 @@ Flags:
       --count string     Don't return the results just the count
       --days string      How many days back to query
       --domain string    Domain to find certificates for. % is a wildcard
-  -h, --help             help for crt
+  -h, --help             help for gcrt
 ```
 
 ## to build
 `go build -o bin/gcrt`
+
+## to download
+`go get -u github.com/jhinds/gcrt`
