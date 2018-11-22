@@ -19,10 +19,6 @@ var cmd = &cobra.Command{
 				  it does so by querying https://crt.sh
 				  Complete documentation is available at https://github.com/jhinds/gcrt`,
 	Run: func(cmd *cobra.Command, args []string) {
-		if len(args) == 0 {
-			cmd.Help()
-			os.Exit(0)
-		}
 		GetCerts()
 	},
 }
