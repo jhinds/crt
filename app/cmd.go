@@ -77,8 +77,18 @@ func GetCerts() {
 	var certs []CertResponse
 	err = json.Unmarshal(contents, &certs)
 	if err != nil {
+		log.Fatal(err)
 		fmt.Print("Error Unmarshalling JSON")
 	}
+
+	// dateLookback := time.Now().AddDate(0, 0, 365)
+	// var filteredCerts []CertResponse
+	// for _, cert := range certs {
+	// 	if dateLookback.Before(cert.EntryTimestamp.Time) {
+	// 		fmt.Printf("%v", cert)
+	// 		filteredCerts = append(filteredCerts, cert)
+	// 	}
+	// }
 
 	if opts.Output == "text" {
 		printTextOutput(certs)
