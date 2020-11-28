@@ -77,8 +77,8 @@ func GetCerts() {
 	var certs []CertResponse
 	err = json.Unmarshal(contents, &certs)
 	if err != nil {
-		log.Fatal(err)
 		fmt.Print("Error Unmarshalling JSON")
+		log.Fatal(err)
 	}
 
 	var filteredCerts []CertResponse
@@ -96,7 +96,7 @@ func GetCerts() {
 	if opts.Output == "text" {
 		printTextOutput(filteredCerts)
 	} else {
-		fmt.Printf("%s\n", contents)
+		printJSONOutput(filteredCerts)
 	}
 }
 
@@ -121,7 +121,12 @@ func printTextOutput(certs []CertResponse) {
 }
 
 func printJSONOutput(certs []CertResponse) {
-	fmt.Printf("%v\n", certs)
+	jsonData, err := json.Marshal(certs)
+	if err != nil {
+		fmt.Print("Error Marshalling JSON")
+		log.Fatal(err)
+	}
+	fmt.Printf("%s\n", string(jsonData))
 }
 
 func validCommand() {
