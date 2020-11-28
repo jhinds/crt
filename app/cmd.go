@@ -51,7 +51,7 @@ var opts cliOptions
 func init() {
 	cmd.PersistentFlags().StringVar(&opts.Between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
 	cmd.PersistentFlags().StringVarP(&opts.Count, "count", "c", "", "Don't return the results just the count")
-	cmd.PersistentFlags().IntVar(&opts.Days, "days", 0, "How many days back to query")
+	cmd.PersistentFlags().IntVar(&opts.Days, "days", -1, "How many days back to query")
 	cmd.PersistentFlags().StringVarP(&opts.Domain, "domain", "d", "", "Domain to find certificates for. % is a wildcard")
 	cmd.PersistentFlags().StringVarP(&opts.Output, "output", "o", "json", "The type of output for the certificates")
 	cmd.MarkPersistentFlagRequired("domain")
@@ -81,12 +81,16 @@ func GetCerts() {
 		fmt.Print("Error Unmarshalling JSON")
 	}
 
-	dateLookback := time.Now().AddDate(0, 0, -opts.Days)
 	var filteredCerts []CertResponse
-	for _, cert := range certs {
-		if cert.EntryTimestamp.Time.After(dateLookback) {
-			filteredCerts = append(filteredCerts, cert)
+	if opts.Days > -1 {
+		dateLookback := time.Now().AddDate(0, 0, -opts.Days)
+		for _, cert := range certs {
+			if cert.EntryTimestamp.Time.After(dateLookback) {
+				filteredCerts = append(filteredCerts, cert)
+			}
 		}
+	} else {
+		filteredCerts = certs
 	}
 
 	if opts.Output == "text" {
