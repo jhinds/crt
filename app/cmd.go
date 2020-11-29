@@ -49,10 +49,12 @@ type cliOptions struct {
 var opts cliOptions
 
 func init() {
-	cmd.PersistentFlags().StringVar(&opts.Between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
-	cmd.PersistentFlags().StringVarP(&opts.Count, "count", "c", "", "Don't return the results just the count")
+	// TODO: Implement this
+	// cmd.PersistentFlags().StringVar(&opts.Between, "between", "", "The dates to run the query for in the format start-date:end-date.  The dates should have the format YYYY-MM-DD")
+	// TODO: Implement this
+	// cmd.PersistentFlags().StringVarP(&opts.Count, "count", "c", "", "Don't return the results just the count")
 	cmd.PersistentFlags().IntVar(&opts.Days, "days", -1, "How many days back to query")
-	cmd.PersistentFlags().StringVarP(&opts.Domain, "domain", "d", "", "Domain to find certificates for. % is a wildcard")
+	cmd.PersistentFlags().StringVarP(&opts.Domain, "domain", "", "", "Domain to find certificates for. % is a wildcard")
 	cmd.PersistentFlags().StringVarP(&opts.Output, "output", "o", "json", "The type of output for the certificates")
 	cmd.MarkPersistentFlagRequired("domain")
 }
@@ -102,26 +104,28 @@ func GetCerts() {
 
 func printTextOutput(certs []CertResponse) {
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"COMMON_NAME", "NAME_VALUE", "ENTRY_TIMESTAMP", "ISSUER_NAME", "NOT_AFTER", "NOT_BEFORE"})
+	table.SetHeader(GetHeaderArray())
 	for _, cert := range certs {
 		table.Append(cert.ToArray())
 	}
 
 	table.SetAutoWrapText(false)
-	table.SetAutoFormatHeaders(true)
+	// table.SetAutoFormatHeaders(true)
+	// table.SetReflowDuringAutoWrap(false)
 	table.SetCenterSeparator("")
 	table.SetColumnSeparator("")
+	// this isn't working for some reason
+	// table.SetColMinWidth(2, 50)
 	table.SetRowSeparator("")
 	table.SetHeaderLine(false)
 	table.SetBorder(false)
 	table.SetTablePadding("\t") // pad with tabs
 	table.SetNoWhiteSpace(true)
 	table.Render() // Send output
-
 }
 
 func printJSONOutput(certs []CertResponse) {
-	jsonData, err := json.Marshal(certs)
+	jsonData, err := json.MarshalIndent(certs, "", "  ")
 	if err != nil {
 		fmt.Print("Error Marshalling JSON")
 		log.Fatal(err)

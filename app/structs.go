@@ -1,6 +1,9 @@
 package app
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
 
 // CertResponse represents a certificate response object
 type CertResponse struct {
@@ -17,7 +20,22 @@ type CertResponse struct {
 
 // ToArray returns the cert information as an array
 func (cr CertResponse) ToArray() []string {
-	return []string{cr.CommonName, cr.NameValue, ISO8601LocalTime.String(cr.EntryTimestamp), cr.IssuerName, ISO8601LocalTime.String(cr.NotAfter), ISO8601LocalTime.String(cr.NotBefore)}
+	days := int(cr.NotAfter.Time.Sub(time.Now()).Hours() / 24)
+	var daysleft string
+	if days == 0 {
+		daysleft = "today"
+	} else if days == 1 {
+		daysleft = fmt.Sprintf("%d day", days)
+	} else {
+		daysleft = fmt.Sprintf("%v days", days)
+	}
+
+	return []string{cr.CommonName, cr.NameValue, ISO8601LocalTime.String(cr.EntryTimestamp), cr.IssuerName, ISO8601LocalTime.String(cr.NotAfter), ISO8601LocalTime.String(cr.NotBefore), daysleft}
+}
+
+// GetHeaderArray returns the cert headers as an array
+func GetHeaderArray() []string {
+	return []string{"COMMONNAME", "SANS", "CREATED", "ISSUER", "START", "END", "EXPIRESIN"}
 }
 
 // ISO8601LocalTime struct for local time in ISO8601 format
