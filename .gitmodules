@@ -1,0 +1,9 @@
+[submodule "docs/themes/ronu-hugo-theme"]
+	path = docs/themes/ronu-hugo-theme
+	url = https://github.com/softwareyoga/ronu-hugo-theme.git
+[submodule "docs/themes/hugo-theme-cactus"]
+	path = docs/themes/hugo-theme-cactus
+	url = https://github.com/monkeyWzr/hugo-theme-cactus.git
+[submodule "docs/themes/etch"]
+	path = docs/themes/etch
+	url = https://github.com/LukasJoswiak/etch.git

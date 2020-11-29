@@ -1,0 +1,10 @@
+baseURL = "https://gcrt.jhinds.dev/"
+languageCode = "en-us"
+title = "gcrt"
+theme = "etch"
+
+[params]
+  description = "gcrt cli tool"
+  copyright = "Copyright © 2020 Jonathan Hinds"
+  dark = "off"
+  highlight = true

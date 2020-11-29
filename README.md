@@ -1,6 +1,7 @@
 # gcrt
 
 crt is a simple in cli tool to check certificate information of certain domains against [`https://crt.sh/`](https://crt.sh/).
+Tool homepage: [https://gcrt.jhinds.dev](https://gcrt.jhinds.dev)
 
 ## usage
 ```
