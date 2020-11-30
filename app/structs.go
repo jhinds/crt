@@ -30,7 +30,7 @@ func (cr CertResponse) ToArray() []string {
 		daysleft = fmt.Sprintf("%v days", days)
 	}
 
-	return []string{cr.CommonName, cr.NameValue, ISO8601LocalTime.String(cr.EntryTimestamp), cr.IssuerName, ISO8601LocalTime.String(cr.NotAfter), ISO8601LocalTime.String(cr.NotBefore), daysleft}
+	return []string{cr.CommonName, cr.NameValue, ISO8601LocalTime.String(cr.EntryTimestamp), cr.IssuerName, ISO8601LocalTime.String(cr.NotBefore), ISO8601LocalTime.String(cr.NotAfter), daysleft}
 }
 
 // GetHeaderArray returns the cert headers as an array
